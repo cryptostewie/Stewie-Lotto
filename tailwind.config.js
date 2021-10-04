@@ -14,9 +14,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#0d283d',
+        primary: '#313660',
+        secondary: '#3e4577',
         gray: '#eff0f5',
-        yellow: '#ffdd79',
+        yellow: '#deac03',
         blue: '#66b6e7',
       },
       fontFamiliy: {
@@ -27,5 +28,8 @@ module.exports = {
   variants: {
     extend: {}
   },
-  plugins: []
+  plugins: [
+    // Other plugins
+    require('tailwind-caret-color')(),
+  ]
 }
