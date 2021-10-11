@@ -1,4 +1,10 @@
 module.exports = {
+  reactStrictMode: true,
+  env: {
+    BASE_URL: process.env.BASE_URL,
+    NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY,
+    MAGIC_SECRET_KEY: process.env.MAGIC_SECRET_KEY,
+  },
   /* config options here */
   webpack(config, { isServer, dev: isDevelopmentMode }) {
     config.module.rules.push({

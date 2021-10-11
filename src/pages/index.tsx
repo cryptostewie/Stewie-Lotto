@@ -1,13 +1,70 @@
 import Head from "next/head";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { Button } from "../components";
+import { Magic } from "magic-sdk";
+import { OAuthExtension } from "@magic-ext/oauth";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import APIClient from "../service/api-clients";
+import { SignResParam } from "../types/sign-params";
+import apiConfig from "../config/index";
+import { getUserInfo } from "../utils/api";
+
+import { useIsAuthenticated } from "../providers/Auth";
+import { useAuth } from "../providers/Auth";
+import withoutAuth from "../hocs/withoutAuth";
+import Cookies from "js-cookie";
 
 const Index = () => {
   const router = useRouter();
+  const [token, setToken] = useState(null);
+  const [username, setUsername] = useState(null);
+  const [avatar, setAvatar] = useState(null);
+
+  const isAuthenticated = useIsAuthenticated();
+  const { setAuthenticated } = useAuth();
+  useEffect(() => {
+    if (isAuthenticated) {
+      try {
+        getUserInfo(Cookies.get("session"))
+          .then((response) => {
+            if (response.data.success) {
+              setUsername(response.data.user.username);
+            } else if (
+              !response.data.success &&
+              response.data.message === "jwt expired"
+            ) {
+              console.error(response.data.message);
+              toast("Token Expired, please log in again!", {
+                type: toast.TYPE.WARNING,
+                hideProgressBar: true,
+              });
+              setAuthenticated(false);
+            } else {
+              console.error("err_getuserinfo");
+            }
+          })
+          .catch((err) => {
+            console.error("__errGetUserInfo", err.message);
+            toast("Unauthourized User!", {
+              type: toast.TYPE.WARNING,
+              hideProgressBar: true,
+            });
+            // location.href = "/logout";
+          });
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  }, []);
 
   return (
     <>
+      <ToastContainer />
       <Head>
         <title>Stewie's Lotto</title>
       </Head>
@@ -20,24 +77,51 @@ const Index = () => {
               <div className="text-white text-xl">Stewie's Lotto</div>
             </div>
             <div className="flex items-center space-x-2">
-              <Button
-                onClick={event => {
-                  event.preventDefault();
-                  router.push("/login");
-                }}
-                className="bg-primary hover:bg-secondary duration-300 px-6"
-              >
-                Login
-              </Button>
-              <Button
-                onClick={event => {
-                  event.preventDefault();
-                  router.push("/register");
-                }}
-                className="bg-primary hover:bg-secondary duration-300 px-6"
-              >
-                Register
-              </Button>
+              {isAuthenticated ? (
+                <>
+                  <div
+                    className="px-2"
+                    style={{ color: "white" }}
+                  >{`${username} `}</div>
+                  |
+                  <Button
+                    onClick={async (event) => {
+                      event.preventDefault();
+                      const magic = new Magic(process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY, {
+                        extensions: [new OAuthExtension()],
+                      });
+                      await magic.user.logout();
+                      Cookies.remove('session');
+                      setAuthenticated(false);
+                      // router.push("/logout");
+                    }}
+                    className="bg-primary hover:bg-secondary duration-300 px-6"
+                  >
+                    {"Logout"}
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    onClick={(event) => {
+                      event.preventDefault();
+                      router.push("/login");
+                    }}
+                    className="bg-primary hover:bg-secondary duration-300 px-6"
+                  >
+                    Login
+                  </Button>
+                  <Button
+                    onClick={(event) => {
+                      event.preventDefault();
+                      router.push("/register");
+                    }}
+                    className="bg-primary hover:bg-secondary duration-300 px-6"
+                  >
+                    Register
+                  </Button>
+                </>
+              )}
             </div>
           </div>
 
@@ -149,6 +233,6 @@ const Index = () => {
       </div>
     </>
   );
-}
+};
 
-export default Index
+export default Index;

@@ -2,7 +2,11 @@ import React from "react";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { Input, Button } from "../components";
+import { Magic } from "magic-sdk";
+import { OAuthExtension } from "@magic-ext/oauth";
+
+import { Input, Button, SocialButton } from "../components";
+import withoutAuth from "../hocs/withoutAuth";
 
 const Login = () => {
   const [emailError, setEmailError] = React.useState(undefined);
@@ -12,6 +16,47 @@ const Login = () => {
   const [password, setPassword] = React.useState("");
 
   const router = useRouter();
+
+  const googleSignIn = async (event) => {
+    event.preventDefault();
+    const magic = new Magic(process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY, {
+      extensions: [new OAuthExtension()],
+    });
+    await magic.oauth.loginWithRedirect({
+      provider: "google" /* 'google', 'facebook', 'apple', or 'github' */,
+      redirectURI: "http://localhost:3000/verifylogin",
+      // scope: ["user:email"] /* optional */,
+    });
+  };
+
+  const render = async () => {
+    let html = "";
+    const magic = new Magic(process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY, {
+      extensions: [new OAuthExtension()],
+    });
+    location.href=`/verifyEmailLogin`;
+  };
+
+  const handleLogin = async (e) => {
+    const magic = new Magic(process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY, {
+      extensions: [new OAuthExtension()],
+    });
+    e.preventDefault();
+    const redirectURI = "http://localhost:3000/verifyEmailLogin"; // 👈 This will be our callback URI
+    if (email) {
+      /* One-liner login 🤯 */
+      await magic.auth.loginWithMagicLink({ email, redirectURI }); // 👈 Notice the additional parameter!
+      render();
+    }
+  };
+
+  const handleLogout = async () => {
+    const magic = new Magic(process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY, {
+      extensions: [new OAuthExtension()],
+    });
+    await magic.user.logout();
+    render();
+  };
 
   return (
     <>
@@ -33,36 +78,34 @@ const Login = () => {
               error={emailError}
               value={email}
               placeholder="Email"
-              onChange={event => {
-                event.preventDefault();
+              onChange={(event) => {
+                setEmail(event.target.value);
               }}
             />
-
+{/* 
             <Input
+              type="password"
               error={passwordError}
               value={password}
               placeholder="Password"
-              onChange={event => {
-                event.preventDefault();
+              onChange={(event) => {
+                setPassword(event.target.value);
               }}
-            />
+            /> */}
 
             <div className="text-white">Forgot your password?</div>
 
-            <Button
-              onClick={event => {
-                event.preventDefault();
-              }}
-            >
-              Login
-            </Button>
+            <Button onClick={handleLogin}>Login</Button>
+            <SocialButton onClick={googleSignIn}>
+              Sign In with Google
+            </SocialButton>
           </div>
 
           <div className="flex justify-between">
             <div className="text-white">Don't you have account?</div>
             <div
               className="text-yellow cursor-pointer"
-              onClick={event => {
+              onClick={(event) => {
                 event.preventDefault();
                 router.push("/register");
               }}
@@ -83,4 +126,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default withoutAuth(Login);

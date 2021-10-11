@@ -5,17 +5,19 @@ interface InputProps {
   value: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder: string;
+  type?: string,
 }
 
 const Input: React.FC<InputProps> = ({
   error,
   value,
   onChange,
-  placeholder
+  placeholder,
+  type,
 }) => {
   return (
     <div className="w-full border border-white rounded-md h-10 flex items-center justify-between my-4 caret-white">
-      <input className="bg-transparent outline-none pl-4" value={value} onChange={onChange} placeholder={placeholder} />
+      <input type={type} className="bg-transparent outline-none pl-4 text-white" value={value} onChange={onChange} placeholder={placeholder} />
       <div>{error}</div>
     </div>
   );

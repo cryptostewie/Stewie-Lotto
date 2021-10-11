@@ -4,7 +4,7 @@
   "private": false,
   "author": {
     "email": "lee.xiang.blue.love@gmail.com",
-    "name": "Piao Hu",
+    "name": "Jin Long",
     "url": "https://www.linkedin.com/in/fivestars-jinlong/"
   },
   "keywords": [
@@ -24,11 +24,18 @@
     "build-storybook": "build-storybook -s public"
   },
   "dependencies": {
+    "@magic-ext/oauth": "^0.10.0",
+    "axios": "^0.22.0",
+    "cookie": "^0.4.1",
+    "js-cookie": "^3.0.1",
+    "magic-sdk": "^6.1.0",
     "next": "10.0.5",
     "nodemailer": "^6.6.3",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-google-autocomplete": "^2.4.2",
+    "react-loader-spinner": "^4.0.0",
+    "react-toastify": "^8.0.3",
     "tailwind-caret-color": "^1.1.0"
   },
   "devDependencies": {
