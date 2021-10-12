@@ -1,7 +1,7 @@
-import axios, { AxiosResponse } from "axios"
+import axios, { AxiosResponse } from "axios";
 
 export default class AuthenticatedApiClient {
-  private static instance: AuthenticatedApiClient
+  private static instance: AuthenticatedApiClient;
 
   private constructor() {
     //EMPTY
@@ -9,10 +9,10 @@ export default class AuthenticatedApiClient {
 
   public static getInstance(): AuthenticatedApiClient {
     if (!AuthenticatedApiClient.instance) {
-      AuthenticatedApiClient.instance = new AuthenticatedApiClient()
+      AuthenticatedApiClient.instance = new AuthenticatedApiClient();
     }
 
-    return AuthenticatedApiClient.instance
+    return AuthenticatedApiClient.instance;
   }
 
   async head(
@@ -20,7 +20,7 @@ export default class AuthenticatedApiClient {
     token: string,
     options: Record<string, any> = {}
   ): Promise<AxiosResponse> {
-    const authorization = this.getCurrentUserAuthorization(token)
+    const authorization = this.getCurrentUserAuthorization(token);
     const data = await axios.head(url, {
       headers: {
         Authorization: authorization,
@@ -28,12 +28,16 @@ export default class AuthenticatedApiClient {
       params: {
         ...(options != null ? options : {}),
       },
-    })
-    return data
+    });
+    return data;
   }
 
-  async get<T>(url: string, token: string, options: Record<string, any> = {}): Promise<T> {
-    const authorization = this.getCurrentUserAuthorization(token)
+  async get<T>(
+    url: string,
+    token: string,
+    options: Record<string, any> = {}
+  ): Promise<T> {
+    const authorization = this.getCurrentUserAuthorization(token);
     const data = await axios.get(url, {
       headers: {
         Authorization: authorization,
@@ -41,8 +45,8 @@ export default class AuthenticatedApiClient {
       params: {
         ...(options != null ? options : {}),
       },
-    })
-    return data.data as T
+    });
+    return data.data as T;
   }
 
   async post<T>(
@@ -51,7 +55,7 @@ export default class AuthenticatedApiClient {
     body?: Record<string, any>,
     options?: Record<string, any>
   ): Promise<T> {
-    const authorization = this.getCurrentUserAuthorization(token)
+    const authorization = this.getCurrentUserAuthorization(token);
 
     return (
       await axios.post(url, body, {
@@ -62,7 +66,7 @@ export default class AuthenticatedApiClient {
           ...(options != null ? options : {}),
         },
       })
-    ).data as T
+    ).data as T;
   }
 
   async put<T>(
@@ -71,7 +75,7 @@ export default class AuthenticatedApiClient {
     body?: Record<string, any>,
     options?: Record<string, any>
   ): Promise<T> {
-    const authorization = this.getCurrentUserAuthorization(token)
+    const authorization = this.getCurrentUserAuthorization(token);
 
     return (
       await axios.put(url, body, {
@@ -82,7 +86,7 @@ export default class AuthenticatedApiClient {
           ...(options != null ? options : {}),
         },
       })
-    ).data as T
+    ).data as T;
   }
 
   async putFormData<T>(
@@ -90,8 +94,8 @@ export default class AuthenticatedApiClient {
     token: string,
     body?: FormData,
     options?: Record<string, any>
-  ): Promise<T> {
-    const authorization = this.getCurrentUserAuthorization(token)
+  ): Promise<FormData> {
+    const authorization = this.getCurrentUserAuthorization(token);
 
     return (
       await axios.put(url, body, {
@@ -103,7 +107,7 @@ export default class AuthenticatedApiClient {
           ...(options != null ? options : {}),
         },
       })
-    ).data as T
+    ).data as FormData;
   }
 
   async postFormData<T>(
@@ -111,8 +115,8 @@ export default class AuthenticatedApiClient {
     token: string,
     body?: FormData,
     options?: Record<string, any>
-  ): Promise<T> {
-    const authorization = this.getCurrentUserAuthorization(token)
+  ): Promise<FormData> {
+    const authorization = this.getCurrentUserAuthorization(token);
 
     return (
       await axios.post(url, body, {
@@ -124,7 +128,7 @@ export default class AuthenticatedApiClient {
           ...(options != null ? options : {}),
         },
       })
-    ).data as T
+    ).data as FormData;
   }
 
   async patch<T>(
@@ -133,7 +137,7 @@ export default class AuthenticatedApiClient {
     body?: Record<string, any>,
     options?: Record<string, any>
   ): Promise<T> {
-    const authorization = this.getCurrentUserAuthorization(token)
+    const authorization = this.getCurrentUserAuthorization(token);
 
     return (
       await axios.patch(url, body, {
@@ -144,7 +148,7 @@ export default class AuthenticatedApiClient {
           ...(options != null ? options : {}),
         },
       })
-    ).data as T
+    ).data as T;
   }
 
   async delete<T>(
@@ -153,7 +157,7 @@ export default class AuthenticatedApiClient {
     body?: Record<string, any>,
     options?: Record<string, any>
   ): Promise<T> {
-    const authorization = this.getCurrentUserAuthorization(token)
+    const authorization = this.getCurrentUserAuthorization(token);
     return (
       await axios.delete(url, {
         headers: {
@@ -164,10 +168,10 @@ export default class AuthenticatedApiClient {
           ...(options != null ? options : {}),
         },
       })
-    ).data as T
+    ).data as T;
   }
 
   getCurrentUserAuthorization(token: string) {
-    return `RL.Backend ${token}`.trim()
+    return `RL.Backend ${token}`.trim();
   }
 }
