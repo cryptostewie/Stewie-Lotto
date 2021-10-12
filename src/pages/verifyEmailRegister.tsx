@@ -35,10 +35,19 @@ const verifyEmailRegister = () => {
       if (res.success && res.token) {
         Cookies.set("session", res.token);
         setAuthenticated(true);
-        toast("Successfully registered!", {
-          type: toast.TYPE.SUCCESS,
-          hideProgressBar: true,
+        toast.success(res.message, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
         });
+        // toast("Successfully registered!", {
+        //   type: toast.TYPE.SUCCESS,
+        //   hideProgressBar: true,
+        // });
         location.href = "/";
       } else if (res.message) {
         console.error(res.message);

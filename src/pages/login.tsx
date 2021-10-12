@@ -24,7 +24,7 @@ const Login = () => {
     });
     await magic.oauth.loginWithRedirect({
       provider: "google" /* 'google', 'facebook', 'apple', or 'github' */,
-      redirectURI: "http://localhost:3000/verifylogin",
+      redirectURI: `${process.env.FRONT_URL}/verifylogin`,
       // scope: ["user:email"] /* optional */,
     });
   };
@@ -34,7 +34,7 @@ const Login = () => {
     const magic = new Magic(process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY, {
       extensions: [new OAuthExtension()],
     });
-    location.href=`/verifyEmailLogin`;
+    location.href = `/verifyEmailLogin`;
   };
 
   const handleLogin = async (e) => {
@@ -42,7 +42,7 @@ const Login = () => {
       extensions: [new OAuthExtension()],
     });
     e.preventDefault();
-    const redirectURI = "http://localhost:3000/verifyEmailLogin"; // 👈 This will be our callback URI
+    const redirectURI = `${process.env.FRONT_URL}/verifyEmailLogin`; // 👈 This will be our callback URI
     if (email) {
       /* One-liner login 🤯 */
       await magic.auth.loginWithMagicLink({ email, redirectURI }); // 👈 Notice the additional parameter!
@@ -82,7 +82,7 @@ const Login = () => {
                 setEmail(event.target.value);
               }}
             />
-{/* 
+            {/* 
             <Input
               type="password"
               error={passwordError}

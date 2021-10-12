@@ -42,15 +42,15 @@ const verifyEmailLogin = () => {
         location.href = "/";
       } else if (res.message) {
         console.error(res.message);
-        // toast.error(res.message, {
-        //   position: "top-right",
-        //   autoClose: 2000,
-        //   hideProgressBar: false,
-        //   closeOnClick: true,
-        //   pauseOnHover: true,
-        //   draggable: true,
-        //   progress: undefined,
-        // });
+        toast.error(res.message, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
         location.href = "/register";
       }
     } catch (e) {

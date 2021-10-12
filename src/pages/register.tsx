@@ -32,7 +32,7 @@ const Register = () => {
     });
     await magic.oauth.loginWithRedirect({
       provider: "google" /* 'google', 'facebook', 'apple', or 'github' */,
-      redirectURI: "http://localhost:3000/verifyregister",
+      redirectURI: `${process.env.FRONT_URL}/verifyregister`,
       // scope: ["user:email"] /* optional */,
     });
   };
@@ -42,7 +42,7 @@ const Register = () => {
     const magic = new Magic(process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY, {
       extensions: [new OAuthExtension()],
     });
-    location.href=`/verifyEmailRegister`;
+    location.href = `/verifyEmailRegister`;
     /*
       For this tutorial, our callback route is simply "/callback"
     */
@@ -93,7 +93,7 @@ const Register = () => {
       extensions: [new OAuthExtension()],
     });
     e.preventDefault();
-    const redirectURI = `http://localhost:3000/verifyEmailRegister`; // 👈 This will be our callback URI
+    const redirectURI = `${process.env.FRONT_URL}/verifyEmailRegister`; // 👈 This will be our callback URI
     if (email) {
       /* One-liner login 🤯 */
       await magic.auth.loginWithMagicLink({ email, redirectURI }); // 👈 Notice the additional parameter!

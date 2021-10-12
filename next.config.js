@@ -4,6 +4,7 @@ module.exports = {
     BASE_URL: process.env.BASE_URL,
     NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY,
     MAGIC_SECRET_KEY: process.env.MAGIC_SECRET_KEY,
+    FRONT_URL: process.env.FRONT_URL,
   },
   /* config options here */
   webpack(config, { isServer, dev: isDevelopmentMode }) {
