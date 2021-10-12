@@ -89,7 +89,7 @@ export default class AuthenticatedApiClient {
     ).data as T;
   }
 
-  async putFormData<T>(
+  async putFormData<FormData>(
     url: string,
     token: string,
     body?: FormData,
@@ -110,7 +110,7 @@ export default class AuthenticatedApiClient {
     ).data as FormData;
   }
 
-  async postFormData<T>(
+  async postFormData<FormData>(
     url: string,
     token: string,
     body?: FormData,
