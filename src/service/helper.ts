@@ -1,4 +1,4 @@
-import { CheckPassParam } from "../models/check-pass-param"
+// import { CheckPassParam } from "../models/check-pass-param"
 
 export function getWidth() {
   if (typeof window !== "undefined") {
@@ -14,7 +14,7 @@ export function ValidateEmail(e: string) {
 }
 
 export function CheckPassword(pass: string) {
-  const result: CheckPassParam = {
+  const result: any = {
     status: false,
     msg: "Password is too weak.",
     strength: "Weak",
