@@ -7,4 +7,7 @@ export default class Config {
   static GET_USER_INFO = `${apiURL}/api/auth/get-userinfo`;
   static REGISTER = `${apiURL}/api/auth/register`;
   static LOGIN = `${apiURL}/api/auth/login`;
+  static CURRENT_LOTTO = `${apiURL}/api/lotto/get`;
+
+  static PURCHASE = `${apiURL}/api/purchase/create`;
 }
