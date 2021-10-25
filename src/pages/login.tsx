@@ -24,7 +24,7 @@ const Login = () => {
     });
     await magic.oauth.loginWithRedirect({
       provider: "google" /* 'google', 'facebook', 'apple', or 'github' */,
-      redirectURI: `https://warm-thicket-75973.herokuapp.com/${process.env.FRONT_URL}/verifylogin`,
+      redirectURI: `${process.env.FRONT_URL}/verifylogin`,
       // scope: ["user:email"] /* optional */,
     });
   };
@@ -42,7 +42,7 @@ const Login = () => {
       extensions: [new OAuthExtension()],
     });
     e.preventDefault();
-    const redirectURI = `https://warm-thicket-75973.herokuapp.com/${process.env.FRONT_URL}/verifyEmailLogin`; // 👈 This will be our callback URI
+    const redirectURI = `${process.env.FRONT_URL}/verifyEmailLogin`; // 👈 This will be our callback URI
     if (email) {
       /* One-liner login 🤯 */
       await magic.auth.loginWithMagicLink({ email, redirectURI }); // 👈 Notice the additional parameter!
