@@ -32,7 +32,7 @@ const Register = () => {
     });
     await magic.oauth.loginWithRedirect({
       provider: "google" /* 'google', 'facebook', 'apple', or 'github' */,
-      redirectURI: `${process.env.FRONT_URL}/verifyregister`,
+      redirectURI: `https://warm-thicket-75973.herokuapp.com/${process.env.FRONT_URL}/verifyregister`,
       // scope: ["user:email"] /* optional */,
     });
   };
@@ -93,7 +93,7 @@ const Register = () => {
       extensions: [new OAuthExtension()],
     });
     e.preventDefault();
-    const redirectURI = `${process.env.FRONT_URL}/verifyEmailRegister`; // 👈 This will be our callback URI
+    const redirectURI = `https://warm-thicket-75973.herokuapp.com/${process.env.FRONT_URL}/verifyEmailRegister`; // 👈 This will be our callback URI
     if (email) {
       /* One-liner login 🤯 */
       await magic.auth.loginWithMagicLink({ email, redirectURI }); // 👈 Notice the additional parameter!
